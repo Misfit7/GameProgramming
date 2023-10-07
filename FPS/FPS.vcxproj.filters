@@ -18,5 +18,30 @@
     <ClCompile Include="FPS.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="FPScolor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fps_fireball1.spr">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="fps_lamp1.spr">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="fps_wall1.spr">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="olcConsoleGameEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

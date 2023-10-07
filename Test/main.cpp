@@ -114,8 +114,69 @@ pair<float, float> MontyHallParadox(const int cnt, const int doors = 3) {
     return make_pair(cntStickWin, cntSwitchWin);
 }
 
+//快排
+int Paritition(vector<int>& a, int l, int r) {
+    int key = a[l];
+    while (l < r)
+    {
+        while (l < r && a[r] >= key)
+        {
+            r--;
+        }
+        a[l] = a[r];
+        while (l < r && a[l] <= key)
+        {
+            l++;
+        }
+        a[r] = a[l];
+    }
+    a[l] = key;
+    return l;
+}
+
+void quickSort(vector<int>& a, int l, int r) {
+    if (l < r) {
+        int pivot = Paritition(a, l, r);
+        quickSort(a, l, pivot - 1);
+        quickSort(a, pivot + 1, r);
+    }
+}
+
+//堆排
+void max_heap(vector<int>& a, int l, int r) {
+    int dad = l;
+    int son = dad * 2 + 1;
+    while (son <= r)
+    {
+        //比较两子节点，选最大
+        if (son + 1 <= r && a[son] < a[son + 1]) son++;
+        //父大于子，调整完毕，结束
+        if (a[dad] > a[son]) return;
+        else //交换父子节点，继续往下比较
+        {
+            swap(a[dad], a[son]);
+            dad = son;
+            son = dad * 2 + 1;
+        }
+    }
+}
+
+void heap_sort(vector<int>& a, int len) {
+    //从最后一个父节点开始
+    for (int i = len / 2 - 1; i >= 0; i--)
+    {
+        max_heap(a, i, len - 1);
+    }
+    //第一个元素和已排好的元素前一位交换，再重新调整，直到排序完毕
+    for (int i = len - 1; i > 0; i--)
+    {
+        swap(a[0], a[i]);
+        max_heap(a, 0, i - 1);
+    }
+}
+
 int main() {
-    cout << calSquare(10000) << endl;
+    /*cout << calSquare(10000) << endl;
     system("pause");
     system("cls");
 
@@ -125,7 +186,15 @@ int main() {
 
     int cnt = 100000;
     pair<float, float> res = MontyHallParadox(cnt);
-    cout << "keep win:" << res.first / cnt << "\tswitch win:" << res.second / cnt << endl;
+    cout << "keep win:" << res.first / cnt << "\tswitch win:" << res.second / cnt << endl;*/
+
+    vector<int> a = { 3,7,5,2,1 };
+    quickSort(a, 0, a.size() - 1);
+    for (auto i : a) cout << i << endl;
+
+    vector<int> b = { 3,7,5,2,1,4,6 };
+    heap_sort(b, b.size());
+    for (auto i : b) cout << i << endl;
 
     return 0;
 }
