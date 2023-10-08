@@ -24,16 +24,22 @@
     <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteEditor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fps_fireball1.spr">
+    <None Include="fps_fireball.spr">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="fps_lamp1.spr">
+    <None Include="fps_lamp.spr">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="fps_wall1.spr">
+    <None Include="fps_wall.spr">
       <Filter>资源文件</Filter>
+    </None>
+    <None Include="FPScolor.cpp.bak">
+      <Filter>源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -43,5 +49,10 @@
     <ClInclude Include="GameEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDo.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>
