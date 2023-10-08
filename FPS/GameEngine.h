@@ -49,6 +49,140 @@ enum PIXEL_TYPE
     PIXEL_QUARTER = 0x2591,
 };
 
+class Sprite
+{
+public:
+    Sprite()
+    {
+
+    }
+
+    Sprite(int w, int h)
+    {
+        Create(w, h);
+    }
+
+    Sprite(wstring sFile)
+    {
+        if (!Load(sFile))
+            Create(8, 8);
+    }
+
+    int nWidth = 0;
+    int nHeight = 0;
+
+private:
+    short* m_Glyphs = nullptr;
+    short* m_Colours = nullptr;
+
+    void Create(int w, int h)
+    {
+        nWidth = w;
+        nHeight = h;
+        m_Glyphs = new short[w * h];
+        m_Colours = new short[w * h];
+        for (int i = 0; i < w * h; i++)
+        {
+            m_Glyphs[i] = L' ';
+            m_Colours[i] = FG_BLACK;
+        }
+    }
+
+public:
+    void SetGlyph(int x, int y, short c)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return;
+        else
+            m_Glyphs[y * nWidth + x] = c;
+    }
+
+    void SetColour(int x, int y, short c)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return;
+        else
+            m_Colours[y * nWidth + x] = c;
+    }
+
+    short GetGlyph(int x, int y)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return L' ';
+        else
+            return m_Glyphs[y * nWidth + x];
+    }
+
+    short GetColour(int x, int y)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return FG_BLACK;
+        else
+            return m_Colours[y * nWidth + x];
+    }
+
+    short SampleGlyph(float x, float y)
+    {
+        int sx = (int)(x * (float)nWidth);
+        int sy = (int)(y * (float)nHeight - 1.0f);
+        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+            return L' ';
+        else
+            return m_Glyphs[sy * nWidth + sx];
+    }
+
+    short SampleColour(float x, float y)
+    {
+        int sx = (int)(x * (float)nWidth);
+        int sy = (int)(y * (float)nHeight - 1.0f);
+        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+            return FG_BLACK;
+        else
+            return m_Colours[sy * nWidth + sx];
+    }
+
+    bool Save(wstring sFile)
+    {
+        FILE* f = nullptr;
+        _wfopen_s(&f, sFile.c_str(), L"wb");
+        if (f == nullptr)
+            return false;
+
+        fwrite(&nWidth, sizeof(int), 1, f);
+        fwrite(&nHeight, sizeof(int), 1, f);
+        fwrite(m_Colours, sizeof(short), nWidth * nHeight, f);
+        fwrite(m_Glyphs, sizeof(short), nWidth * nHeight, f);
+
+        fclose(f);
+
+        return true;
+    }
+
+    bool Load(wstring sFile)
+    {
+        delete[] m_Glyphs;
+        delete[] m_Colours;
+        nWidth = 0;
+        nHeight = 0;
+
+        FILE* f = nullptr;
+        _wfopen_s(&f, sFile.c_str(), L"rb");
+        if (f == nullptr)
+            return false;
+
+        fread(&nWidth, sizeof(int), 1, f);
+        fread(&nHeight, sizeof(int), 1, f);
+
+        Create(nWidth, nHeight);
+
+        fread(m_Colours, sizeof(short), nWidth * nHeight, f);
+        fread(m_Glyphs, sizeof(short), nWidth * nHeight, f);
+
+        fclose(f);
+        return true;
+    }
+};
+
 class GameEngine
 {
 public:
@@ -102,9 +236,9 @@ void GameEngine::Build(int width, int height)
     //程序名
     gameName = L"Default";
     //按键状态内存初始化
-    std::memset(m_keyOldState, 0, 256 * sizeof(short));
-    std::memset(m_keyNewState, 0, 256 * sizeof(short));
-    std::memset(m_keys, 0, 256 * sizeof(KeyState));
+    memset(m_keyOldState, 0, 256 * sizeof(short));
+    memset(m_keyNewState, 0, 256 * sizeof(short));
+    memset(m_keys, 0, 256 * sizeof(KeyState));
 }
 
 //启动

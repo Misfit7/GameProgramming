@@ -80,9 +80,9 @@
 //        map += L"################################";
 //
 //
-//        spriteWall = new olcSprite(L"FPSSprites/fps_wall1.spr");
-//        spriteLamp = new olcSprite(L"FPSSprites/fps_lamp1.spr");
-//        spriteFireBall = new olcSprite(L"FPSSprites/fps_fireball1.spr");
+//        spriteWall = new olcSprite(L"fps_wall1.spr");
+//        spriteLamp = new olcSprite(L"fps_lamp1.spr");
+//        spriteFireBall = new olcSprite(L"fps_fireball1.spr");
 //        fDepthBuffer = new float[ScreenWidth()];
 //
 //        listObjects = {
@@ -331,10 +331,10 @@
 //
 //};
 //
-////int main()
-////{
-////    OneLoneCoder_UltimateFPS game;
-////    game.ConstructConsole(320, 240, 4, 4);
-////    game.Start();
-////    return 0;
-////}
+//int main()
+//{
+//    OneLoneCoder_UltimateFPS game;
+//    game.ConstructConsole(360, 120, 4, 4);
+//    game.Start();
+//    return 0;
+//}

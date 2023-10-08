@@ -144,11 +144,13 @@
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="FPScolor.cpp" />
     <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h" />
+    <ClCompile Include="SpriteEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fps_fireball1.spr" />
-    <None Include="fps_lamp1.spr" />
-    <None Include="fps_wall1.spr" />
+    <None Include="FPScolor.cpp.bak" />
+    <None Include="fps_fireball.spr" />
+    <None Include="fps_lamp.spr" />
+    <None Include="fps_wall.spr" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h">
