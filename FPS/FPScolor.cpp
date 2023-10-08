@@ -262,6 +262,7 @@ protected:
         //回收删除的物体
         listObjects.remove_if([](sObject& o) {return o.bRemove; });
 
+
         //显示地图
         for (int nx = 0; nx < nMapWidth; nx++)
         {
