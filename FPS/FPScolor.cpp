@@ -4,7 +4,8 @@
 #include <chrono>
 
 //#include "olcConsoleGameEngine.h"
-#include "GameEngine.h"
+#include "BufferOutput.h"
+#include "Mesh.h"
 
 using namespace std;
 

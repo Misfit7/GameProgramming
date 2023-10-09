@@ -141,10 +141,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BufferOutput.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Color.h">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="FPScolor.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h" />
-    <ClCompile Include="SpriteEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FPScolor.cpp.bak" />
@@ -153,7 +161,11 @@
     <None Include="fps_wall.spr" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameEngine.h">
+    <ClInclude Include="BufferOutput.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -24,8 +24,14 @@
     <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteEditor.cpp">
+    <ClCompile Include="Mesh.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferOutput.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.h">
+      <Filter>头文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +52,10 @@
     <ClInclude Include="olcConsoleGameEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine.h">
+    <ClInclude Include="BufferOutput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
