@@ -35,7 +35,46 @@ int GameEngine::Build(int width, int height)
     screen = new CHAR_INFO[nScreenWidth * nScreenHeight];
     memset(screen, 0, sizeof(CHAR_INFO) * nScreenWidth * nScreenHeight);
 
+    //设置窗口标题
+    SetConsoleTitle(gameName.c_str());
+    //限制鼠标在窗口内并隐藏鼠标
+    setLimitCursor();
+
     return 1;
+}
+
+void GameEngine::setLimitCursor()
+{
+    //限制鼠标在窗口内
+    HWND hwndFound; //窗口句柄
+    while ((hwndFound = FindWindow(NULL, gameName.c_str())) == NULL) {}; //获取唯一命名的窗口
+    RECT rect; //窗口范围
+    GetClientRect(hwndFound, &rect);
+    //分类窗口范围
+    POINT ul;
+    ul.x = rect.left;
+    ul.y = rect.top;
+    POINT lr;
+    lr.x = rect.right;
+    lr.y = rect.bottom;
+    //与整个屏幕的映射
+    MapWindowPoints(hwndFound, nullptr, &ul, 1);
+    MapWindowPoints(hwndFound, nullptr, &lr, 1);
+    //设置窗口在整个屏幕内的范围
+    rect.left = ul.x;
+    rect.top = ul.y + 42;
+    rect.right = lr.x - 22;
+    rect.bottom = lr.y - 12;
+    //限制鼠标
+    ClipCursor(&rect);
+    //隐藏鼠标
+    ShowCursor(0);
+}
+
+void GameEngine::setMouseVisable(bool visiable)
+{
+    CONSOLE_CURSOR_INFO cursor_info = { sizeof(CONSOLE_CURSOR_INFO),visiable };
+    SetConsoleCursorInfo(hConsole, &cursor_info);
 }
 
 //启动
@@ -96,16 +135,63 @@ void GameEngine::GameThread() {
         for (DWORD i = 0; i < events; i++)
         {
             switch (inBuf[i].EventType) {
-
+            case FOCUS_EVENT:
+            {
+                m_bConsoleInFocus = inBuf[i].Event.FocusEvent.bSetFocus;
+                break;
             }
+
+            case MOUSE_EVENT:
+                switch (inBuf[i].Event.MouseEvent.dwEventFlags) //事件flag为true
+                {
+                case MOUSE_MOVED: {
+                    m_mousePosX = inBuf[i].Event.MouseEvent.dwMousePosition.X; //鼠标X位置
+                    m_mousePosY = inBuf[i].Event.MouseEvent.dwMousePosition.Y; //鼠标Y位置
+                    break;
+                }
+                case 0:
+                {
+                    for (int m = 0; m < 5; m++)
+                    {
+                        m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0; //鼠标按键状态
+                    }
+                    break;
+                }
+                default:
+                    break;
+                }
+            default:
+                break;
+            }
+        }
+
+        //鼠标按键状态设置
+        for (int m = 0; m < 5; m++)
+        {
+            m_mouse[m].bPressed = false;
+            m_mouse[m].bReleased = false;
+            if (m_mouseNewState[m] != m_mouseOldState[m])
+            {
+                if (m_mouseNewState[m])
+                {
+                    m_mouse[m].bPressed = true;
+                    m_mouse[m].bHeld = true;
+                }
+                else
+                {
+                    m_mouse[m].bReleased = true;
+                    m_mouse[m].bHeld = false;
+                }
+            }
+            m_mouseOldState[m] = m_mouseNewState[m];
         }
 
         //载入用户更新函数
         OnUserUpdate(fElapsedTime);
-        //输出状态信息
+        ////输出状态信息
         //wchar_t s[256];
         //swprintf_s(s, nScreenWidth * nScreenHeight, L"FPSGame - %s - FPS=%3.2f", gameName.c_str(), 1.0f / fElapsedTime); //最后为帧数(一秒钟处理多少次循环)
-        //SetConsoleTitle(s);
+        //SetConsoleTitleW(s);
         //输出画面
         WriteConsoleOutputW(hConsole, screen, { (short)nScreenWidth, (short)nScreenHeight }, { 0,0 }, &rectWindow);
     }

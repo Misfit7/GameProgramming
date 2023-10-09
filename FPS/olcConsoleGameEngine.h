@@ -749,6 +749,7 @@ private:
                         case 0:
                         {
                             for (int m = 0; m < 5; m++)
+
                                 m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
 
                         }

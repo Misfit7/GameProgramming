@@ -15,6 +15,10 @@ public:
     int ScreenWidth() { return nScreenWidth; }
     int ScreenHeight() { return nScreenHeight; }
     void Draw(int x, int y, short c = PIXEL_SOLID, short col = FG_WHITE);
+    void mouseposition() { cout << m_mousePosX << ' ' << m_mousePosY << endl; };
+    void setGameName(wstring s) { gameName = s; };
+    void setMouseVisable(bool visiable);
+    void setLimitCursor();
 
     //需重写
     virtual bool OnUserCreate() = 0;
@@ -39,6 +43,7 @@ protected:
     bool m_mouseNewState[5] = { 0 };
     int m_mousePosX;
     int m_mousePosY;
+    bool m_bConsoleInFocus = true; //输入聚焦
 
     //屏幕大小
     int nScreenWidth;

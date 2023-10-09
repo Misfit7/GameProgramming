@@ -12,6 +12,9 @@ using namespace std;
 //class FPS :public olcConsoleGameEngine
 class FPS :public GameEngine
 {
+public:
+    FPS() { setGameName(L"FPSgame"); };
+
 protected:
     virtual bool OnUserCreate() {
         //地图
@@ -64,11 +67,7 @@ protected:
     }
 
     virtual bool OnUserUpdate(float fElapsedTime) {
-        //键盘映射
-        if (m_keys[L'Q'].bHeld) //(16)0x8000=(10)32768=(2)1000 0000 0000 0000 
-            fPlayerA -= (0.75f * fSpeed) * fElapsedTime; //转向速度*帧时间
-        if (m_keys[L'E'].bHeld)
-            fPlayerA += (0.75f * fSpeed) * fElapsedTime;
+        //键盘映射((16)0x8000=(10)32768=(2)1000 0000 0000 0000 )
         if (m_keys[L'W'].bHeld)
         {
             fPlayerX += sinf(fPlayerA) * fSpeed * fElapsedTime; //投影到前进角度的X*行走速度*帧时间
@@ -109,18 +108,35 @@ protected:
                 fPlayerY += sinf(fPlayerA) * fSpeed * fElapsedTime;
             }
         }
-        if (m_keys[VK_SPACE].bReleased)
+        if (m_keys[VK_ESCAPE].bPressed)
         {
-            sObject Bullet;
-            Bullet.x = fPlayerX;
-            Bullet.y = fPlayerY;
-            float fOffset = (float(rand()) / float(RAND_MAX) - 0.5f) * 0.1f; //子弹偏移散射
-            Bullet.vx = sinf(fPlayerA + fOffset) * 8.0f; //速度
-            Bullet.vy = cosf(fPlayerA + fOffset) * 8.0f;
-            Bullet.sprite = spriteFireBall;
-            Bullet.bRemove = false;
-            listObjects.push_back(Bullet);
+            ClipCursor(nullptr);
+            m_bConsoleInFocus = false;
         }
+        //鼠标映射
+        if (m_mouse[0].bPressed)
+        {
+            if (m_bConsoleInFocus) {
+                sObject Bullet;
+                Bullet.x = fPlayerX;
+                Bullet.y = fPlayerY;
+                float fOffset = (float(rand()) / float(RAND_MAX) - 0.5f) * 0.1f; //子弹偏移散射
+                Bullet.vx = sinf(fPlayerA + fOffset) * 8.0f; //速度
+                Bullet.vy = cosf(fPlayerA + fOffset) * 8.0f;
+                Bullet.sprite = spriteFireBall;
+                Bullet.bRemove = false;
+                listObjects.push_back(Bullet);
+            }
+            else {
+                m_bConsoleInFocus = true;
+                setLimitCursor();
+                ShowCursor(1);
+            }
+        }
+        if (m_keys[L'Q'].bHeld)
+            fPlayerA -= (0.75f * fSpeed) * fElapsedTime; //转向速度*帧时间
+        if (m_keys[L'E'].bHeld)
+            fPlayerA += (0.75f * fSpeed) * fElapsedTime;
 
         for (int x = 0; x < ScreenWidth(); x++)
         {
@@ -273,7 +289,6 @@ protected:
         }
         //显示玩家位置
         Draw(int(fPlayerY), int(fPlayerX) + 1, L'P');
-
         return true;
     }
 

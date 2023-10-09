@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 //int minOperations(vector<int>& nums) {
 //    if (nums.size() == 2 && nums[0] == nums[1]) return 1;
 //    sort(nums.begin(), nums.end());
@@ -175,6 +176,7 @@ void heap_sort(vector<int>& a, int len) {
     }
 }
 
+
 int main() {
     /*cout << calSquare(10000) << endl;
     system("pause");
@@ -188,13 +190,18 @@ int main() {
     pair<float, float> res = MontyHallParadox(cnt);
     cout << "keep win:" << res.first / cnt << "\tswitch win:" << res.second / cnt << endl;*/
 
-    vector<int> a = { 3,7,5,2,1 };
+    /*vector<int> a = { 3,7,5,2,1 };
     quickSort(a, 0, a.size() - 1);
     for (auto i : a) cout << i << endl;
 
     vector<int> b = { 3,7,5,2,1,4,6 };
     heap_sort(b, b.size());
-    for (auto i : b) cout << i << endl;
+    for (auto i : b) cout << i << endl;*/
+
+    CONSOLE_CURSOR_INFO cursor_info = { 1,false };
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
+    Sleep(10000);
+    system("pause");
 
     return 0;
 }
