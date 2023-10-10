@@ -152,10 +152,8 @@
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="FPScolor.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FPScolor.cpp.bak" />
     <None Include="fps_fireball.spr" />
     <None Include="fps_lamp.spr" />
     <None Include="fps_wall.spr" />
@@ -169,7 +167,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="olcConsoleGameEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

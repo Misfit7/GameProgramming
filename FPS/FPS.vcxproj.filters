@@ -21,9 +21,6 @@
     <ClCompile Include="FPScolor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OneLoneCoder_ComandLineFPS_2.h">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -44,14 +41,8 @@
     <None Include="fps_wall.spr">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="FPScolor.cpp.bak">
-      <Filter>源文件</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="olcConsoleGameEngine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="BufferOutput.h">
       <Filter>头文件</Filter>
     </ClInclude>
