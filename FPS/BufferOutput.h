@@ -15,9 +15,10 @@ public:
     int ScreenWidth() { return nScreenWidth; }
     int ScreenHeight() { return nScreenHeight; }
     void Draw(int x, int y, short c = PIXEL_SOLID, short col = FG_WHITE);
-    void mouseposition() { cout << m_mousePosX << ' ' << m_mousePosY << endl; };
+    //void mouseposition() { cout << m_mousePosX << ' ' << m_mousePosY << endl; };
     void setGameName(wstring s) { gameName = s; };
-    void setMouseVisable(bool visiable);
+    void hideCursor();
+    void showCursor();
     void setLimitCursor();
 
     //需重写
@@ -41,13 +42,19 @@ protected:
     //鼠标
     bool m_mouseOldState[5] = { 0 };
     bool m_mouseNewState[5] = { 0 };
+    //queue<COORD> m_mousePos;
     int m_mousePosX;
     int m_mousePosY;
+    queue<int> turnR;
     bool m_bConsoleInFocus = true; //输入聚焦
 
     //屏幕大小
     int nScreenWidth;
     int nScreenHeight;
+    RECT rect; //窗口范围
+    HCURSOR c = GetCursor(); //光标
+    POINT* midWindow = new POINT(); //窗口中点
+    POINT* curPos = new POINT(); //光标位置
     HANDLE hConsole;
     HANDLE hConsoleIn; //输入
     SMALL_RECT rectWindow;

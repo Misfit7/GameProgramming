@@ -48,7 +48,7 @@ void GameEngine::setLimitCursor()
     //限制鼠标在窗口内
     HWND hwndFound; //窗口句柄
     while ((hwndFound = FindWindow(NULL, gameName.c_str())) == NULL) {}; //获取唯一命名的窗口
-    RECT rect; //窗口范围
+    //根据句柄获取窗口
     GetClientRect(hwndFound, &rect);
     //分类窗口范围
     POINT ul;
@@ -68,13 +68,27 @@ void GameEngine::setLimitCursor()
     //限制鼠标
     ClipCursor(&rect);
     //隐藏鼠标
-    ShowCursor(0);
+    hideCursor();
+    //窗口中点
+    midWindow->x = (rect.left + rect.right) / 2;
+    midWindow->y = (rect.top + rect.bottom) / 2;
 }
 
-void GameEngine::setMouseVisable(bool visiable)
+void GameEngine::hideCursor()//隐藏光标
 {
-    CONSOLE_CURSOR_INFO cursor_info = { sizeof(CONSOLE_CURSOR_INFO),visiable };
-    SetConsoleCursorInfo(hConsole, &cursor_info);
+    HANDLE h_GAME = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursor_info;
+    GetConsoleCursorInfo(h_GAME, &cursor_info);
+    cursor_info.bVisible = false;
+    SetConsoleCursorInfo(h_GAME, &cursor_info);
+}
+void GameEngine::showCursor()//显示光标
+{
+    HANDLE h_GAME = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursor_info;
+    GetConsoleCursorInfo(h_GAME, &cursor_info);
+    cursor_info.bVisible = true;
+    SetConsoleCursorInfo(h_GAME, &cursor_info);
 }
 
 //启动
@@ -145,8 +159,18 @@ void GameEngine::GameThread() {
                 switch (inBuf[i].Event.MouseEvent.dwEventFlags) //事件flag为true
                 {
                 case MOUSE_MOVED: {
-                    m_mousePosX = inBuf[i].Event.MouseEvent.dwMousePosition.X; //鼠标X位置
-                    m_mousePosY = inBuf[i].Event.MouseEvent.dwMousePosition.Y; //鼠标Y位置
+                    //m_mousePosX = inBuf[i].Event.MouseEvent.dwMousePosition.X; //鼠标X位置
+                    //m_mousePosY = inBuf[i].Event.MouseEvent.dwMousePosition.Y; //鼠标Y位置
+                    /*COORD pos = { inBuf[i].Event.MouseEvent.dwMousePosition.X,inBuf[i].Event.MouseEvent.dwMousePosition.Y };
+                    m_mousePos.emplace(pos);*/
+                    if (m_bConsoleInFocus)
+                    {
+                        GetCursorPos(curPos);
+                        if (curPos->x < midWindow->x)
+                            turnR.emplace(-1);
+                        else if (curPos->x > midWindow->x)
+                            turnR.emplace(1);
+                    }
                     break;
                 }
                 case 0:
@@ -161,6 +185,10 @@ void GameEngine::GameThread() {
                     break;
                 }
             default:
+                if (m_bConsoleInFocus)
+                {
+                    SetCursorPos(midWindow->x, midWindow->y);
+                }
                 break;
             }
         }

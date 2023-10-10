@@ -198,9 +198,18 @@ int main() {
     heap_sort(b, b.size());
     for (auto i : b) cout << i << endl;*/
 
-    CONSOLE_CURSOR_INFO cursor_info = { 1,false };
-    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
-    Sleep(10000);
+    /*HCURSOR c = GetCursor();
+    SetSystemCursor(GetCursor(), 0);*/
+
+    POINT* curPos = new POINT(); //¹â±êÎ»ÖÃ
+
+
+    while (true)
+    {
+        GetCursorPos(curPos);
+        cout << curPos->x << ' ' << curPos->y << endl;
+    }
+
     system("pause");
 
     return 0;

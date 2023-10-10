@@ -112,6 +112,7 @@ protected:
         {
             ClipCursor(nullptr);
             m_bConsoleInFocus = false;
+            showCursor();
         }
         //鼠标映射
         if (m_mouse[0].bPressed)
@@ -130,13 +131,29 @@ protected:
             else {
                 m_bConsoleInFocus = true;
                 setLimitCursor();
-                ShowCursor(1);
+                hideCursor();
             }
         }
-        if (m_keys[L'Q'].bHeld)
-            fPlayerA -= (0.75f * fSpeed) * fElapsedTime; //转向速度*帧时间
-        if (m_keys[L'E'].bHeld)
-            fPlayerA += (0.75f * fSpeed) * fElapsedTime;
+        //if (m_keys[L'Q'].bHeld)
+        //    fPlayerA -= (0.75f * fSpeed) * fElapsedTime; //转向速度*帧时间
+        //if (m_keys[L'E'].bHeld)
+        //    fPlayerA += (0.75f * fSpeed) * fElapsedTime;
+        while (turnR.size())
+        {
+            int v = turnR.front();
+            turnR.pop();
+            switch (v)
+            {
+            case -1:
+                fPlayerA -= (0.35f * fSpeed) * fElapsedTime;
+                break;
+            case 1:
+                fPlayerA += (0.35f * fSpeed) * fElapsedTime;
+                break;
+            default:
+                break;
+            }
+        }
 
         for (int x = 0; x < ScreenWidth(); x++)
         {
