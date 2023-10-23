@@ -350,7 +350,7 @@ int main()
 {
     FPS game;
     //game.ConstructConsole(320, 240, 4, 4);
-    game.Build(360, 120);
+    game.Build(420, 140);
     game.Start();
 
     return 0;
